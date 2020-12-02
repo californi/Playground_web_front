@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script>
+        window.onload = init;
+        function init() {
+            if (window["Worker"]) {
+                var worker1 = new Worker("meuWorker.js");
+                worker1.postMessage("ping");
+
+                worker1.onmessage = function (evento) {
+                    var mensagem = evento.data;
+                    var worker = evento.target;
+                    document.getElementById("saida").innerHTML = mensagem;
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <p id="saida"></p>
+</body>
+</html>

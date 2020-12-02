@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="armazenamentoListas.js"></script>
+    <script>
+        function init() {
+            var button = document.getElementById("meuBotao");
+            button.onclick = funcaoBotao;
+            function funcaoBotao() {
+                var txt = document.getElementById("txtValor");
+                if (txt.value == "") {
+                    alert("Informe um texto!");
+                } else {
+                    var li = document.createElement("li");
+                    li.innerHTML = txt.value;
+                    var ul = document.getElementById("minhaLista");
+                    ul.appendChild(li);
+                    salvar(li.innerHTML); //  usando localStore
+                    txt.value = "";
+                }
+            }
+
+            carregarLista(); //  usando localStore
+        }
+        window.onload = init;
+    </script>
+</head>
+<body>
+    <ul id="minhaLista">
+
+    </ul>
+    <input type="text" id="txtValor" />
+    <button id="meuBotao" >Clicar</button>
+</body>
+</html>

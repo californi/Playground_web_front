@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="mvc.js"></script>
+    <script>
+        var botao;
+        var campo;
+        window.onload = function () { 
+            botao = document.getElementById("ok");
+            campo = document.getElementById("valor");
+            botao.onclick = funcao1;
+            campo.onkeypress = funcao2;
+        };
+        function funcao1() {
+            var valor = campo.value;
+            if (valor.length == 0) {
+                view.mostrarMensagem("digite um valor!");
+                return;
+            }
+            var msg = controller.mudarCalibre(valor);
+            campo.value = "";
+            view.mostrarMensagem(msg);
+        }
+        function funcao2(e) {
+            if (e.keyCode === 13) {
+                botao.click();
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="principal"></div>
+    <form onSubmit="return false;">
+        <input type="text" id="valor" />
+        <input type="button" id="ok" value="OK"/>
+    </form> 
+</body>
+</html>

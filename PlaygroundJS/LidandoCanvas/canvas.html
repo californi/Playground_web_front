@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        canvas { border: 1px solid black; }
+    </style>
+    <script>
+        window.onload = function () {
+            var canvas = document.getElementById("meuNovoCanvas");
+            var context = canvas.getContext("2d");
+            context.fillText("Na DW2", 100, 100, 200);
+            context.strokeText("Só tem aluno inteligente!", 100, 150, 200);
+        };
+    </script>
+</head>
+<body>
+    <canvas id="meuNovoCanvas" width="600" height="200">
+        Navegador não suporta!
+    </canvas>
+</body>
+</html>

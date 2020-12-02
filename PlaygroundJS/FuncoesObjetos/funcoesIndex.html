@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script>
+        window.onload = function () {
+            var contar = 0;
+            var mensagem = "Clicou me!";
+            var div = document.getElementById("mensagem");
+            var botao = document.getElementById("clicar");
+            botao.onclick = function () {
+                contar++;
+                div.innerHTML = mensagem + contar + " vezes!";
+            };
+        };
+    </script>
+</head>
+<body>
+    <button id="clicar">Clique aqui!</button>
+    <div id="mensagem"></div>
+</body>
+</html>

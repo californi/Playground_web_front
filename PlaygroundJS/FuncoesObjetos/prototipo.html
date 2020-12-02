@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script>
+        function Cachorro(nome, raca, peso) {
+            this.nome = nome;
+            this.raca = raca;
+            this.peso = peso;
+        }
+
+        Cachorro.prototype.especie = "canina";
+        Cachorro.prototype.latir = function () {
+            alert(this.nome + " está latindo: Whooof");
+        };
+
+        function CachorroCorredor(nome, raca, peso, kmh) {
+            Cachorro.call(this, nome, raca, peso);
+            this.kmh = kmh;
+        }
+
+        CachorroCorredor.prototype = new Cachorro();
+        CachorroCorredor.prototype.correr = function () {
+            alert(this.nome + " está correndo a " + this.kmh + " km/h");  
+        };
+        CachorroCorredor.prototype.constructor = CachorroCorredor;
+
+    </script>
+
+</head>
+<body>
+    <script>
+
+        var brutos = new Cachorro("brutos", "pitbull", 150);
+        brutos.latir = function () {
+            alert(this.nome + " está latindo: Agrrouurrrahoooof");
+        };
+        brutos.latir();
+
+    </script>
+    <script>
+        var corredor = new CachorroCorredor("Bolinha", "Pintier", 5, 20);
+        corredor.correr();
+
+        Cachorro.prototype.toString = function () {
+            return "Este é o " + this.nome;
+        };
+        alert(corredor);
+        var toto = new Cachorro("Totó", "vira lata", 35);
+        alert(toto);
+    </script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Rastreando você...</title>
+    <style>
+        #map {
+            width: 400px;
+            height: 400px;
+        }
+    </style>
+    <script src="http://maps.google.com/maps/api/js?key=AIzaSyChG6kZRO6N-rXV0qGu-yOers3oS9rBrbw"></script>
+    <script>
+        window.onload = pegarMinhaLocalizacao;
+        function pegarMinhaLocalizacao() {
+            if (navigator.geolocation) {
+                //navigator.geolocation.getCurrentPosition(mostrarLocalizacao, mostrarErro, { enableHighAccuracy: true, maximumAge: 60000 });
+                var watchButton = document.getElementById("watch");
+                watchButton.onclick = watchLocation;
+                var clearWatchButton = document.getElementById("clearWatch");
+                clearWatchButton.onclick = clearWatch;
+            } else {
+                alert("Geolocation não suportada");
+            }
+        }
+        function mostrarLocalizacao(posicao) {
+            var latitude = posicao.coords.latitude;
+            var longitude = posicao.coords.longitude;
+
+            var div = document.getElementById("location");
+            div.innerHTML = "Sua latitude é " + latitude + ", Longitude é: " + longitude;
+            div.innerHTML += " (com " + posicao.coords.accuracy + " métros de precisão)";
+
+            var km = computarDistancia(posicao.coords, ufscarCoords);
+            var distance = document.getElementById("distance");
+            distance.innerHTML = "Você está " + km + " km do destino!";
+
+            if (map == null) {
+                showMap(posicao.coords);
+            } else {
+                scrollMapToPosition(posicao.coords);
+            }
+        }
+        function mostrarErro(erro) {
+            var erroTipo = {
+                0: "Erro desconhecido",
+                1: "Permissão revogada pelo usuário",
+                2: "Posição não disponível",
+                3: "Tempo de requisição esgotado"
+            };
+            var mensagemErro = erroTipo[erro.code];
+            if (erro.code == 0 || erro.code == 2) { // nesses dois tipos, temos informações adicionais
+                mensagemErro = mensagemErro + " " + erro.message;
+            }
+            var div = document.getElementById("location");
+            div.innerHTML = mensagemErro;
+        }
+        function computarDistancia(origemCoordenada, destinoCoordenada) {
+            var origemLatRads = grausParaRadianos(origemCoordenada.latitude);
+            var origemLongRads = grausParaRadianos(origemCoordenada.longitude);
+            var destinoLatRads = grausParaRadianos(destinoCoordenada.latitude);
+            var destinoLongRads = grausParaRadianos(destinoCoordenada.longitude);
+
+            var raio = 6371; //raio da terra em KM
+            var distancia = Math.acos(Math.sin(origemLatRads) * Math.sin(destinoLatRads) +
+                Math.cos(origemLatRads) * Math.cos(destinoLatRads) *
+                Math.cos(origemLongRads - destinoLongRads)) * raio;
+
+            return distancia;
+        }
+        function grausParaRadianos(graus) {
+            var radianos = (graus * Math.PI) / 180;
+            return radianos;
+        }
+        //Exemplo de coordenadas
+        var ifspCoords = {
+            latitude: -22.693500,
+            longitude: -47.625740
+        };
+        var ufscarCoords = {
+            latitude: -21.979225,
+            longitude: -47.880009
+        };
+
+        var map;
+        function showMap(coords) {
+            //exemplo do uso do construtor
+            var googleLatLong = new google.maps.LatLng(coords.latitude, coords.longitude);
+            //exemplo de configurações do mapa
+            var mapOptions = {
+                zoom: 10,
+                center: googleLatLong, //o objeto do maps.
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var mapDiv = document.getElementById("map");
+            map = new google.maps.Map(mapDiv, mapOptions);
+
+            var titulo = "Sua localização";
+            var conteudo = "Você está aqui: " + coords.latitude + ", " + coords.longitude;
+            adicionarMarcador(map, googleLatLong, titulo, conteudo);
+        }
+
+        function adicionarMarcador(map, latlong, titulo, conteudo) {
+            var marcadorOpcoes = {
+                position: latlong,
+                map: map,
+                title: titulo,
+                clickable: true
+            };
+            var marcador = new google.maps.Marker(marcadorOpcoes);
+
+            var infoWindowOpcoes = {
+                content: conteudo,
+                position: latlong
+            };
+            var infoWindow = new google.maps.InfoWindow(infoWindowOpcoes);
+            google.maps.event.addListener(marcador, "click", function () {
+                infoWindow.open(map);
+            });
+        }
+
+        var watchId = null;
+        function watchLocation() {
+            watchId = navigator.geolocation.watchPosition(mostrarLocalizacao, mostrarErro);
+        }
+        function clearWatch() {
+            if (watchId) {
+                navigator.geolocation.clearWatch(watchId);
+                watchId == null;
+            }
+        }
+        //Exemplo1 de opções de position
+        var positionOpcoes = {
+            enableHighAccuracy: false,
+            timeour: Infinity,
+            maximumAge: 0
+        }
+        //Exemplo2 de opções de position
+        var opcoes = { enableHighAccuracy: true, maximumAge: 60000 };
+
+        function scrollMapToPosition(coords) {
+            var latitude = coords.latitude;
+            var longitude = coords.longitude;
+            var latlong = new google.maps.LatLng(latitude, longitude);
+            map.panTo(latlong); //leva o objeto LatLong e faz rolagem do mapa
+            adicionarMarcador(map, latlong, "Sua nova localização", "Você moveu para: " + latitude + ", " + longitude);
+        }
+    </script>
+</head>
+<body>
+    <form>
+        <input type="button" id="watch" value="Rastreia-me" />
+        <input type="button" id="clearWatch" value="Para de rastrear" />
+    </form>
+    <div id="location">
+        a localização aqui...
+    </div>
+    <div id="distance">
+        Distância entre o IFSP/Piracicaba e a UFSCar
+    </div>
+    <div id="map">
+
+    </div>
+</body>
+</html>

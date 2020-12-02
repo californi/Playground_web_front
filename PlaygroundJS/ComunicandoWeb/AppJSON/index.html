@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Nossa app DW2 (JSON)</title>
+    <style>
+        #cep {
+            background-color: lightgrey;
+        }
+    </style>
+    <script>
+        var cep = "13565905"; //padrao
+        window.onload = function () {
+            setInterval(handleAtualizar, 3000);
+            setInterval(alternaCep, 3100);
+        }
+    </script>
+</head>
+<body>
+    <h1>CEP do IFSP</h1>
+    <div id="cep">
+    </div>
+    <script>
+        function atualizarCEP(cep) {
+            var cepDiv = document.getElementById("cep");
+            var p = document.createElement("p");
+            p.innerHTML = "Av. " + cep.logradouro + ", Bairro " + cep.bairro;
+            cepDiv.appendChild(p); 
+        }
+
+        function handleAtualizar() {
+            var url = "https://viacep.com.br/ws/" + cep + "/json/?callback=atualizarCEP&random=" + ((new Date()).getTime()) ;
+
+            var novoElementoScript = document.createElement("script");
+            novoElementoScript.setAttribute("src", url);
+            novoElementoScript.setAttribute("id", "jsonp");
+
+            var velhoElementoScript = document.getElementById("jsonp");
+            var head = document.getElementsByTagName("head")[0];
+            if (velhoElementoScript == null) {
+                head.appendChild(novoElementoScript);
+            } else {
+                head.replaceChild(novoElementoScript, velhoElementoScript);
+            }
+        }
+
+        function alternaCep() {
+            if (cep == "13565905")
+                cep = "13414155";
+            else
+                cep = "13565905";
+        }
+    </script>
+    
+</body>
+</html>

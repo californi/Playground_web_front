@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <script>
+        var executa = true;
+        var messagem = "Resultados: ";
+        while (executa) {
+            var valor1 = prompt("Digite um valor!");
+            var valor2 = prompt("Digite outro valor menor que o anterior!");
+            if (valor2 > valor1) {
+                alert("Valor 1 deve ser maior que o valor 2.");
+                continue;
+            }
+            var op = prompt("Digite uma operação (+,-,*,/)!");
+            var resultado = operacao(valor1, valor2, op);
+            if (typeof resultado == "undefined") {
+                alert("Operação inválida!");
+                continue;
+            } 
+            messagem = messagem + resultado + ";";
+            alert(resultado);
+            var sair = prompt("Quer continuar? ('n' para sair)");
+            if (sair == "n" || resultado > 100) {
+                executa = false;
+            }
+        }
+        document.write(messagem);
+
+        function operacao(v1, v2, operacao) {
+            if (operacao == "+") {
+                return parseInt(v1) + parseInt(v2);
+            } else if (operacao == "-") {
+                return parseInt(v1) - parseInt(v2);
+            } else if (operacao == "*") {
+                return parseInt(v1) * parseInt(v2);
+            } else if (operacao == "/") {
+                return parseInt(v1) / parseInt(v2);
+            } else {
+                return;
+            }
+        }
+
+    </script>
+
+    <script>
+
+        function funcao(x, y) {
+            if (x == y) {
+                return;
+            } else if (x != y) {
+                return "Diferença";
+            }
+            else
+            {
+                return x * y;
+            }
+        }
+        funcao(1, 3);
+
+    </script>
+</body>
+</html>

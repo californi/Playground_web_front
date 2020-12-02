@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script>
+        var dw1 = {
+            aluno: "Joãozinho",
+            prova1: 2.5,
+            prova2: 0.0,
+            pontuacoesP1: [1, 0.33, 0.66, 0.01, 0.5],
+            verificarMedia: function () {
+                if (aluno == "Joãozinho")
+                    document.write("Passou de ano.");
+                else
+                    document.write("Não passou de ano.");
+            }
+        };
+        window.onload = function () {
+            var p = document.getElementById("numero2");
+            alert(typeof p.innerHTML);
+        }
+    </script>
+</head>
+<body>
+    <p id="numero2"> aaaa </p>
+</body>
+</html>

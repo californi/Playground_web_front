@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        .TextoColorido { color: blue; }
+    </style>
+    <script>
+        function init() {
+            var p = document.getElementById("p1");
+            p.innerHTML = "Texto 2";
+            p.setAttribute("class", "TextoColorido");
+            alert(p.getAttribute("class"));
+        }
+        window.onload = init;
+    </script>
+</head>
+<body>
+    <p id="p1"> texto  </p>
+</body>
+</html>

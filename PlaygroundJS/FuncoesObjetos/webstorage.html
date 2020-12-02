@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        .cor {
+            color: green;
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+            document.getElementById("btnAdd").onclick = adicionar;
+            document.getElementById("btnLimpar").onclick = limpar;
+            carregarArray();
+        };
+
+        function adicionar() {
+            var valor = document.getElementById("txtValor").value;
+            var i = addStorage(valor);
+            addDOM(i, valor);
+        }
+
+        function addDOM(i,valor) {
+            var ul = document.getElementById("minhaLista");
+            var li = document.createElement("li");
+            var key = "item_" + i + "_" + new Date().getTime();
+            li.setAttribute("id", key);
+            li.innerHTML = valor;
+            li.setAttribute("class", "cor");
+            li.onclick = excluirElemento;
+            ul.appendChild(li);
+        }
+
+        function sleep(millis) {
+            var date = new Date();
+            var curDate = null;
+            do { curDate = new Date(); }
+            while (curDate - date < millis);
+        }
+
+        function excluirElemento(e) {
+            var key = e.target.parentNode.id;
+            var ul = document.getElementById(key);
+            var ids = e.target.id.split("_");
+            removeElementoStorage(ids[1]);
+            ul.removeChild(e.target);
+        }
+
+        var arrayItem;
+        function addStorage(item) {
+            try {
+                arrayItem.push(item);
+                localStorage.setItem("storedLista", JSON.stringify(arrayItem));
+                return arrayItem.length - 1;
+            } catch (e) {
+                if (e == QUOTA_EXCEEDEE_ERR) {
+                    alert("Sem limite!");
+                }
+            }
+        }
+
+        function limpar() {
+            localStorage.clear();
+        }
+
+        function carregarArray() {
+            arrayItem = JSON.parse(localStorage.getItem("storedLista"));
+            if (!arrayItem)
+                arrayItem = [];
+            else {
+                for (var i = 0; i < arrayItem.length; i++) {
+                    sleep(1);
+                    addDOM(i, arrayItem[i]);
+                }
+            }
+        }
+
+        function listaUnica(valor) {
+            var atual = new Date();
+            localStorage.setItem("lista_" + atual.getTime(), valor);
+        }
+
+        function removeElementoStorage(index) {
+            arrayItem.splice(index, 1);
+            localStorage.setItem("storedLista", JSON.stringify(arrayItem));
+        }
+
+        function apagandoItem(chave) {
+            localStorage.removeItem(chave);
+        }
+
+
+    </script>
+</head>
+<body>
+    <form>
+        <input type="text" id="txtValor" />
+        <input type="button" id="btnAdd" value="Adicionar">
+        <input type="button" id="btnLimpar" value="Limpar">
+    </form>
+    <ul id="minhaLista"></ul>
+    <script>
+        //localStorage.setItem("ahh", "-");
+        //while (true) {
+        //    var ahh = localStorage.getItem("ahh");
+        //    try {
+        //        localStorage.setItem("ahh", ahh + ahh);
+        //    } catch (e) {
+        //        alert("Eitaaaa...." + ahh.length + " com excecao " + e);
+        //    }
+        //}
+    </script>
+</body>
+</html>

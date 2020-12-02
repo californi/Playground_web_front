@@ -1,0 +1,36 @@
+﻿<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <script>
+        function Disciplina(aluno, prova1, prova2) {
+            this.aluno = aluno;
+            this.prova1 = prova1;
+            this.prova2 = prova2;
+            this.verificarMedia = function () {
+                var resultado = this.prova1 + this.prova2;
+                if (resultado >= 5.0)
+                    document.write("Passou de ano.");
+                else
+                    document.write("Não passou de ano.");
+            };
+        }
+
+        var obj1 = new Disciplina("Joãozinho", 2.5, 2.5);
+        var obj2 = new Disciplina("Manuelzinho", 1.5, 2.5);
+        var obj3 = new Disciplina("Mariazinha", 2.0, 2.5);
+        var obj4 = new Disciplina("Uguinho", 0.5, 0.3);
+        var obj5 = new Disciplina("Luizinho", 1.0, 1.5);
+        var obj6 = new Disciplina("Pedrinho", 2.3, 2.2);
+        var objs = new Array();
+        objs[0] = obj1; objs[1] = obj2;
+        objs[2] = obj3; objs[3] = obj4;
+        objs[4] = obj5; objs[5] = obj6;
+        var jsonString = JSON.stringify(objs);
+        document.write(jsonString);
+
+    </script>
+</body>
+</html>
